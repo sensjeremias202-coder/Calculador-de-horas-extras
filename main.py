@@ -15,7 +15,7 @@ def obter_jornada_normal(turno):
     - horas: jornada normal em horas
     """
     if turno == 'primeiro':
-        return 8.88  # Primeiro turno: 40h/semana = 8,88h/dia
+        return 8.88  # Primeiro turno: 44h/semana = 8,88h/dia
     else:
         return 7.92  # Segundo turno: 39,60h/semana = 7,92h/dia
 
@@ -53,7 +53,7 @@ def main():
     try:
         horas_trabalhadas = float(input("Digite o total de horas trabalhadas no dia: "))
         salario_hora = float(input("Digite o salário por hora: "))
-        turno_input = input("Qual turno? (1 para primeiro/40h, 2 para segundo/39,60h): ").strip()
+        turno_input = input("Qual turno? (1 para primeiro/44h, 2 para segundo/39,60h): ").strip()
         turno = 'primeiro' if turno_input == '1' else 'segundo'
         feriado_input = input("É feriado? (s/n): ").strip().lower()
         feriado = feriado_input == 's'
