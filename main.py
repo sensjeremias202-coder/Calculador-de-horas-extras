@@ -1,22 +1,38 @@
 #!/usr/bin/env python3
 """
 Calculadora de Horas Extras
-Calcula horas extras trabalhadas com base nas regras brasileiras.
+Calcula horas extras trabalhadas com base em regras específicas.
 """
 
-def calcular_horas_extras(horas_trabalhadas, salario_hora, feriado=False):
+def obter_jornada_normal(turno):
+    """
+    Retorna a jornada normal diária conforme o turno.
+    
+    Parâmetros:
+    - turno: 'primeiro' ou 'segundo'
+    
+    Retorna:
+    - horas: jornada normal em horas
+    """
+    if turno == 'primeiro':
+        return 8.88  # Primeiro turno: 44,4h/semana = 8,88h/dia
+    else:
+        return 7.92  # Segundo turno: 39,60h/semana = 7,92h/dia
+
+def calcular_horas_extras(horas_trabalhadas, salario_hora, turno, feriado=False):
     """
     Calcula o valor das horas extras.
 
     Parâmetros:
     - horas_trabalhadas: total de horas trabalhadas no dia (float)
     - salario_hora: salário por hora (float)
+    - turno: 'primeiro' ou 'segundo'
     - feriado: se o dia é feriado (bool)
 
     Retorna:
     - valor_total: valor total a receber (float)
     """
-    horas_normais = 8.88  # Jornada normal de 8,88 horas
+    horas_normais = obter_jornada_normal(turno)
 
     if feriado:
         # Em feriados, paga 100% adicional pelas horas trabalhadas
@@ -37,6 +53,8 @@ def main():
     try:
         horas_trabalhadas = float(input("Digite o total de horas trabalhadas no dia: "))
         salario_hora = float(input("Digite o salário por hora: "))
+        turno_input = input("Qual turno? (1 para primeiro/44,4h, 2 para segundo/39,60h): ").strip()
+        turno = 'primeiro' if turno_input == '1' else 'segundo'
         feriado_input = input("É feriado? (s/n): ").strip().lower()
         feriado = feriado_input == 's'
 
@@ -44,13 +62,14 @@ def main():
             print("Valores não podem ser negativos.")
             return
 
-        valor_total = calcular_horas_extras(horas_trabalhadas, salario_hora, feriado)
+        valor_total = calcular_horas_extras(horas_trabalhadas, salario_hora, turno, feriado)
 
         print(f"Valor total a receber: R$ {valor_total:.2f}")
+        print(f"Turno: {turno}")
         if feriado:
             print("Dia de feriado - 100% adicional aplicado.")
         else:
-            horas_normais = 8.88
+            horas_normais = obter_jornada_normal(turno)
             if horas_trabalhadas > horas_normais:
                 horas_extras = horas_trabalhadas - horas_normais
                 print(f"Horas extras trabalhadas: {horas_extras:.2f}")

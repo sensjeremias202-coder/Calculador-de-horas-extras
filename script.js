@@ -1,11 +1,20 @@
 let dias = [];
 
+function obterJornadaNormal(turno) {
+    if (turno === 'primeiro') {
+        return 8.88; // Primeiro turno: 44,4h/semana = 8,88h/dia
+    } else {
+        return 7.92; // Segundo turno: 39,60h/semana = 7,92h/dia
+    }
+}
+
 document.getElementById('add-day-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const data = document.getElementById('data').value;
     const horasTrabalhadas = parseFloat(document.getElementById('horas-trabalhadas').value);
     const salarioHora = parseFloat(document.getElementById('salario-hora').value);
+    const turno = document.getElementById('turno').value;
     const feriado = document.getElementById('feriado').checked;
 
     if (!data || isNaN(horasTrabalhadas) || isNaN(salarioHora) || horasTrabalhadas < 0 || salarioHora < 0) {
@@ -17,6 +26,7 @@ document.getElementById('add-day-form').addEventListener('submit', function(even
         data: data,
         horasTrabalhadas: horasTrabalhadas,
         salarioHora: salarioHora,
+        turno: turno,
         feriado: feriado
     };
 
@@ -35,12 +45,13 @@ function atualizarTabela() {
     tbody.innerHTML = '';
 
     dias.forEach((dia, index) => {
-        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.feriado);
+        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.turno, dia.feriado);
 
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${formatarData(dia.data)}</td>
             <td>${dia.horasTrabalhadas.toFixed(2)}</td>
+            <td>${dia.turno === 'primeiro' ? '1º' : '2º'}</td>
             <td>${dia.feriado ? 'Sim' : 'Não'}</td>
             <td>${resultado.horasNormais.toFixed(2)}</td>
             <td>${resultado.horasExtras.toFixed(2)}</td>
@@ -64,7 +75,7 @@ function atualizarTotais() {
     let totalReceber = 0;
 
     dias.forEach(dia => {
-        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.feriado);
+        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.turno, dia.feriado);
         totalHorasNormais += resultado.horasNormais;
         totalHorasExtras += resultado.horasExtras;
         totalValorExtras += resultado.valorExtras;
@@ -85,8 +96,8 @@ function removerDia(index) {
     atualizarTotais();
 }
 
-function calcularHorasExtras(horasTrabalhadas, salarioHora, feriado) {
-    const horasNormaisPorDia = 8.88; // Jornada diária de 8,88 horas
+function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
+    const horasNormaisPorDia = obterJornadaNormal(turno);
 
     if (feriado) {
         // Em feriados, paga 100% adicional pelas horas trabalhadas

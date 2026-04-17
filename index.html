@@ -16,6 +16,14 @@
             <input type="number" id="salario-hora" min="0" step="0.01" required>
         </div>
 
+        <div class="input-group">
+            <label for="turno">Turno:</label>
+            <select id="turno" required>
+                <option value="primeiro">Primeiro Turno (44,4h/semana)</option>
+                <option value="segundo">Segundo Turno (39,60h/semana)</option>
+            </select>
+        </div>
+
         <form id="add-day-form">
             <div class="input-group">
                 <label for="data">Data:</label>
@@ -41,6 +49,7 @@
                 <tr>
                     <th>Data</th>
                     <th>Horas Trabalhadas</th>
+                    <th>Turno</th>
                     <th>Feriado</th>
                     <th>Horas Normais</th>
                     <th>Horas Extras</th>
