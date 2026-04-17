@@ -1,24 +1,25 @@
 # Calculador-de-horas-extras
 
-Uma calculadora para calcular horas trabalhadas e separar as horas extras, acumulando múltiplos dias e calculando totais no final, baseada nas regras trabalhistas brasileiras, com interface web em HTML, CSS e JavaScript.
+Uma calculadora para calcular horas trabalhadas e separar as horas extras, acumulando múltiplos dias e calculando totais no final, baseada em regras específicas, com interface web em HTML, CSS e JavaScript.
 
 ## Funcionalidades
 
-- Adicione múltiplos dias trabalhados com data e horas trabalhadas
-- Calcula automaticamente horas normais (8h/dia) e horas extras
+- Adicione múltiplos dias trabalhados com data, horas trabalhadas e se é feriado
+- Calcula automaticamente horas normais (8,88h/dia) e horas extras
 - Mostra tabela com detalhes por dia
 - Calcula totais: horas normais, horas extras, valores
 - Regras de cálculo:
-  - Jornada normal de 8 horas por dia
-  - Primeiras 2 horas extras: 50% a mais
-  - Horas extras acima de 2 horas: 100% a mais
+  - Jornada normal de 8,88 horas por dia
+  - Horas extras sempre 50% a mais, independente da quantidade
+  - Em feriados: paga 100% adicional pelas horas trabalhadas
+  - Jornada mensal: 220 horas
 - Interface web responsiva e fácil de usar
 
 ## Como usar
 
 1. Abra o arquivo `index.html` em um navegador web.
 2. Digite o salário por hora (fixo para todos os dias).
-3. Adicione dias: selecione a data e digite as horas trabalhadas, clique em "Adicionar Dia".
+3. Adicione dias: selecione a data, digite as horas trabalhadas, marque se é feriado, clique em "Adicionar Dia".
 4. A tabela será atualizada automaticamente com os cálculos por dia.
 5. Veja os totais no final.
 
@@ -33,9 +34,9 @@ Uma calculadora para calcular horas trabalhadas e separar as horas extras, acumu
 ## Exemplo
 
 Para um salário de R$ 15,00/hora:
-- Dia 1: 10 horas → 8 normais, 2 extras (R$ 45,00)
-- Dia 2: 9 horas → 8 normais, 1 extra (R$ 22,50)
-- Totais: 16 normais, 3 extras, R$ 67,50 extras, R$ 240,00 normal, R$ 307,50 total
+- Dia normal: 10 horas → 8,88 normais, 1,12 extras (R$ 25,20)
+- Dia feriado: 8,88 horas → R$ 266,40 (100% adicional)
+- Totais: conforme adicionado
 
 ## Requisitos
 

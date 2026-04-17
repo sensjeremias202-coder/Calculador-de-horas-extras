@@ -27,6 +27,12 @@
                 <input type="number" id="horas-trabalhadas" min="0" step="0.01" required>
             </div>
 
+            <div class="input-group">
+                <label>
+                    <input type="checkbox" id="feriado"> É feriado?
+                </label>
+            </div>
+
             <button type="submit">Adicionar Dia</button>
         </form>
 
@@ -35,9 +41,11 @@
                 <tr>
                     <th>Data</th>
                     <th>Horas Trabalhadas</th>
+                    <th>Feriado</th>
                     <th>Horas Normais</th>
                     <th>Horas Extras</th>
                     <th>Valor Extras (R$)</th>
+                    <th>Total Receber (R$)</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -50,7 +58,6 @@
             <p id="total-horas-normais"></p>
             <p id="total-horas-extras"></p>
             <p id="total-valor-extras"></p>
-            <p id="total-salario-normal"></p>
             <p id="total-receber"></p>
         </div>
     </div>
