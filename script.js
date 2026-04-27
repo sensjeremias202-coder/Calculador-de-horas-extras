@@ -10,7 +10,7 @@ function obterJornadaNormal(turno) {
 
 document.getElementById('add-day-form').addEventListener('submit', function(event) {
     event.preventDefault();
-
+    
     const data = document.getElementById('data').value;
     const horasTrabalhadas = parseFloat(document.getElementById('horas-trabalhadas').value);
     const salarioHora = parseFloat(document.getElementById('salario-hora').value);
@@ -34,7 +34,7 @@ document.getElementById('add-day-form').addEventListener('submit', function(even
     atualizarTabela();
     atualizarTotais();
 
-    // Limpar formulário
+    // Limpar campos de entrada de dados do dia
     document.getElementById('data').value = '';
     document.getElementById('horas-trabalhadas').value = '';
     document.getElementById('feriado').checked = false;
@@ -46,7 +46,6 @@ function atualizarTabela() {
 
     dias.forEach((dia, index) => {
         const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.turno, dia.feriado);
-
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${formatarData(dia.data)}</td>
@@ -86,7 +85,6 @@ function atualizarTotais() {
     document.getElementById('total-horas-extras').textContent = `Total horas extras: ${totalHorasExtras.toFixed(2)}`;
     document.getElementById('total-valor-extras').textContent = `Total valor extras: R$ ${totalValorExtras.toFixed(2)}`;
     document.getElementById('total-receber').textContent = `Total a receber: R$ ${totalReceber.toFixed(2)}`;
-
     document.getElementById('totais').style.display = 'block';
 }
 
@@ -100,17 +98,15 @@ function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
     const horasNormaisPorDia = obterJornadaNormal(turno);
 
     if (feriado) {
-        // Em feriados, paga 100% adicional pelas horas trabalhadas
         const valorTotal = horasTrabalhadas * salarioHora * 2;
         return {
-            horasNormais: 0, // Não aplicável em feriados
+            horasNormais: 0,
             horasExtras: horasTrabalhadas,
             valorExtras: valorTotal,
             totalReceber: valorTotal
         };
     }
 
-    // Dias normais
     if (horasTrabalhadas <= horasNormaisPorDia) {
         return {
             horasNormais: horasTrabalhadas,
@@ -121,7 +117,6 @@ function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
     }
 
     const horasExtras = horasTrabalhadas - horasNormaisPorDia;
-    // Horas extras sempre 50%, independente da quantidade
     const valorExtras = horasExtras * salarioHora * 1.5;
     const totalReceber = (horasNormaisPorDia * salarioHora) + valorExtras;
 
@@ -134,6 +129,48 @@ function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
 }
 
 function formatarData(dataString) {
-    const data = new Date(dataString);
+    // Adiciona o T12:00 para evitar problemas de fuso horário que retrocedem o dia
+    const data = new Date(dataString + 'T12:00:00');
     return data.toLocaleDateString('pt-BR');
+}
+
+// FUNÇÃO PARA BAIXAR O RELATÓRIO EM CSV
+function baixarRelatorio() {
+    if (dias.length === 0) {
+        alert("Não há dados para exportar.");
+        return;
+    }
+
+    // Cabeçalho (padrão brasileiro separa por ponto e vírgula)
+    let csv = "Data;Horas Trabalhadas;Turno;Feriado;Horas Normais;Horas Extras;Valor Extras (R$);Total a Receber (R$)\n";
+
+    dias.forEach(dia => {
+        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.turno, dia.feriado);
+        
+        const linha = [
+            formatarData(dia.data),
+            dia.horasTrabalhadas.toFixed(2),
+            dia.turno === 'primeiro' ? '1º' : '2º',
+            dia.feriado ? 'Sim' : 'Não',
+            resultado.horasNormais.toFixed(2),
+            resultado.horasExtras.toFixed(2),
+            resultado.valorExtras.toFixed(2).replace('.', ','),
+            resultado.totalReceber.toFixed(2).replace('.', ',')
+        ];
+        
+        csv += linha.join(";") + "\n";
+    });
+
+    // Adiciona o BOM (\ufeff) para o Excel abrir com acentos corretos
+    const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", "relatorio_horas_extras.csv");
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
