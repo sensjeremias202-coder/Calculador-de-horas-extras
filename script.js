@@ -2,7 +2,7 @@ let dias = [];
 
 function obterJornadaNormal(turno) {
     if (turno === 'primeiro') {
-        return 8.80; // Primeiro turno: 44h/semana = 8,80h/dia
+        return 8.88; // Primeiro turno: 44h/semana = 8,88h/dia
     } else {
         return 7.92; // Segundo turno: 39,60h/semana = 7,92h/dia
     }
