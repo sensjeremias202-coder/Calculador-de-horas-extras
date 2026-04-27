@@ -1,11 +1,12 @@
+/* Configurações Globais */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
+    padding: 10px; /* Margem pequena para telas mobile */
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Melhor para telas pequenas que o center */
     min-height: 100vh;
 }
 
@@ -14,13 +15,15 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    max-width: 900px; /* Aumentei um pouco para caber a tabela melhor */
     width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
     color: #333;
+    font-size: 1.5rem; /* Fonte adaptável */
 }
 
 p {
@@ -36,82 +39,111 @@ label {
     display: block;
     margin-bottom: 5px;
     color: #333;
+    font-weight: bold;
 }
 
-input {
+input, select {
     width: 100%;
-    padding: 8px;
+    padding: 10px; /* Maior para facilitar o clique */
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
-}
-
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+    font-size: 16px; /* Evita zoom automático no iPhone ao clicar */
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    margin-bottom: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: background 0.3s;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-table {
+/* --- AJUSTE PARA TABELA RESPONSIVA --- */
+/* Envolva sua <table> no HTML com uma div class="table-container" se puder, 
+   ou use o código abaixo que força a rolagem se necessário */
+#dias-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    display: block; /* Permite rolagem */
+    overflow-x: auto; /* Cria barra de rolagem lateral em telas pequenas */
+    white-space: nowrap; /* Impede que o texto quebre linhas na tabela */
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px 8px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
+/* --- ESTILO DOS TOTAIS E BOTÃO DE BAIXAR --- */
 .totais {
     margin-top: 20px;
-    padding: 15px;
+    padding: 20px;
     background-color: #e8f5e8;
     border-radius: 4px;
+    border-left: 5px solid #4CAF50;
 }
 
 .totais h2 {
     margin-top: 0;
-    color: #333;
+    color: #2e7d32;
 }
 
 .totais p {
-    margin: 5px 0;
+    margin: 8px 0;
     color: #333;
+    text-align: left; /* Alinhado à esquerda nos totais */
+    font-weight: 500;
+}
+
+#btn-baixar {
+    background-color: #2196F3; /* Azul para diferenciar do 'Adicionar' */
+    margin-top: 15px;
+}
+
+#btn-baixar:hover {
+    background-color: #1976D2;
 }
 
 .delete-btn {
     background-color: #f44336;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-.delete-btn:hover {
-    background-color: #d32f2f;
+/* --- MEDIA QUERIES (Ajustes finos para celular) --- */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 14px;
+    }
 }

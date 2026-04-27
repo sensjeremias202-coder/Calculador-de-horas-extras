@@ -11,19 +11,23 @@
         <h1>Calculadora de Horas Extras</h1>
         <p>Adicione os dias trabalhados e calcule o total de horas normais e extras.</p>
 
-        <div class="input-group">
-            <label for="salario-hora">Salário por hora (R$):</label>
-            <input type="number" id="salario-hora" min="0" step="0.01" required>
+        <!-- Configurações de Salário e Turno -->
+        <div class="config-section">
+            <div class="input-group">
+                <label for="salario-hora">Salário por hora (R$):</label>
+                <input type="number" id="salario-hora" min="0" step="0.01" required placeholder="Ex: 15.50">
+            </div>
+
+            <div class="input-group">
+                <label for="turno">Turno:</label>
+                <select id="turno" required>
+                    <option value="primeiro">Primeiro Turno (44h/semana)</option>
+                    <option value="segundo">Segundo Turno (39,60h/semana)</option>
+                </select>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label for="turno">Turno:</label>
-            <select id="turno" required>
-                <option value="primeiro">Primeiro Turno (44h/semana)</option>
-                <option value="segundo">Segundo Turno (39,60h/semana)</option>
-            </select>
-        </div>
-
+        <!-- Formulário para Adicionar Dia -->
         <form id="add-day-form">
             <div class="input-group">
                 <label for="data">Data:</label>
@@ -31,9 +35,9 @@
             </div>
             <div class="input-group">
                 <label for="horas-trabalhadas">Horas trabalhadas:</label>
-                <input type="number" id="horas-trabalhadas" min="0" step="0.01" required>
+                <input type="number" id="horas-trabalhadas" min="0" step="0.01" required placeholder="Ex: 10">
             </div>
-            <div class="input-group">
+            <div class="input-group checkbox-group">
                 <label>
                     <input type="checkbox" id="feriado"> É feriado?
                 </label>
@@ -41,37 +45,42 @@
             <button type="submit">Adicionar Dia</button>
         </form>
 
-        <table id="dias-table">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Horas Trabalhadas</th>
-                    <th>Turno</th>
-                    <th>Feriado</th>
-                    <th>Horas Normais</th>
-                    <th>Horas Extras</th>
-                    <th>Valor Extras (R$)</th>
-                    <th>Total Receber (R$)</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="dias-body">
-            </tbody>
-        </table>
+        <!-- Tabela Responsiva -->
+        <div class="table-responsive">
+            <table id="dias-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>H. Trab.</th>
+                        <th>Turno</th>
+                        <th>Feriado</th>
+                        <th>H. Normais</th>
+                        <th>H. Extras</th>
+                        <th>Valor Extras</th>
+                        <th>Total</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="dias-body">
+                    <!-- Preenchido pelo JS -->
+                </tbody>
+            </table>
+        </div>
 
+        <!-- Seção de Resultados e Totais -->
         <div id="totais" class="totais" style="display: none;">
-            <h2>Totais</h2>
+            <h2>Resumo Total</h2>
             <p id="total-horas-normais"></p>
             <p id="total-horas-extras"></p>
             <p id="total-valor-extras"></p>
             <p id="total-receber"></p>
             
-            <!-- NOVO BOTÃO ADICIONADO AQUI -->
-            <button id="btn-baixar" onclick="baixarRelatorio()" style="margin-top: 20px; background-color: #28a745;">
-                Baixar Relatório (Excel/CSV)
+            <button id="btn-baixar" onclick="baixarRelatorio()">
+                💾 Baixar Relatório (Excel/CSV)
             </button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
