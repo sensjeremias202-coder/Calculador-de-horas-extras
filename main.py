@@ -15,7 +15,7 @@ def obter_jornada_normal(turno):
     - horas: jornada normal em horas
     """
     if turno == 'primeiro':
-        return 8.88  # Primeiro turno: 44h/semana = 8,88h/dia
+        return 8.80  # Primeiro turno: 44h/semana = 8,80h/dia
     else:
         return 7.92  # Segundo turno: 39,60h/semana = 7,92h/dia
 
