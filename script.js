@@ -1,16 +1,14 @@
-// ... seu código inicial (variável dias)
+let dias = [];
 
 function obterJornadaNormal(turno) {
     if (turno === 'primeiro') {
-        // 48 minutos / 60 = 0.8. Portanto, 8h 48min = 8.8
-        return 8.8; 
+        return 8.8; // Ajustado de 8.88 para 8.8 (8h 48min)
     } else {
-        return 7.92; 
+        return 7.92;
     }
 }
 
-// ... resto do seu código (event listeners e tabelas permanecem iguais)
-
+// Mantendo sua função de cálculo intacta com o novo valor
 function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
     const horasNormaisPorDia = obterJornadaNormal(turno);
 
@@ -43,4 +41,27 @@ function calcularHorasExtras(horasTrabalhadas, salarioHora, turno, feriado) {
         valorExtras: valorExtras,
         totalReceber: totalReceber
     };
+}
+
+// A função de atualizar tabela usa o retorno acima para preencher o seu HTML
+function atualizarTabela() {
+    const tbody = document.getElementById('dias-body');
+    tbody.innerHTML = '';
+
+    dias.forEach((dia, index) => {
+        const resultado = calcularHorasExtras(dia.horasTrabalhadas, dia.salarioHora, dia.turno, dia.feriado);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${formatarData(dia.data)}</td>
+            <td>${dia.horasTrabalhadas.toFixed(2)}</td>
+            <td>${dia.turno === 'primeiro' ? '1º' : '2º'}</td>
+            <td>${dia.feriado ? 'Sim' : 'Não'}</td>
+            <td>${resultado.horasNormais.toFixed(2)}</td>
+            <td>${resultado.horasExtras.toFixed(2)}</td>
+            <td>R$ ${resultado.valorExtras.toFixed(2)}</td>
+            <td>R$ ${resultado.totalReceber.toFixed(2)}</td>
+            <td><button class="delete-btn" onclick="removerDia(${index})">Remover</button></td>
+        `;
+        tbody.appendChild(row);
+    });
 }
